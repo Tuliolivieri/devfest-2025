@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis
+    restart: always
+    container_name: 'redis'
+    ports:
+        - 6379:6379
+    networks:
+        - devfest
+
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    environment:
+      POSTGRES_USER: my_user
+      POSTGRES_PASSWORD: my_password
+      POSTGRES_DB: my_database
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - devfest
+
+  customer:
+    build: ./analise      
+    container_name: customer
+    ports:
+      - "3001:3001"
+    networks:
+      - devfest
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - devfest
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - ./grafana-data:/var/lib/grafana
+    networks:
+      - devfest
+
+volumes:
+  postgres-data:
+
+networks:
+  devfest:
