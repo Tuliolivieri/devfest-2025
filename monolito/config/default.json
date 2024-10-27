@@ -1,0 +1,11 @@
+{
+  "db": {
+    "user": "my_user",
+    "password": "my_password",
+    "host": "localhost",
+    "port": 5432,
+    "database": "db_monolito"
+  }
+}
+
+DATABASE_URL=postgres://my_user:my_password@localhost/db_monolito
