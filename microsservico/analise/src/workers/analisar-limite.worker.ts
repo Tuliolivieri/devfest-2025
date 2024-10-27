@@ -4,15 +4,16 @@ import { AbstractWorker } from "./abstract-worker";
 
 type AnalisarLimiteWorkerParams = {
   email: string;
+  documento: string;
 }
 
 class AnalisarLimiteWorker extends AbstractWorker {
   async process(job: { data: AnalisarLimiteWorkerParams; }): Promise<void> {
+    const { email, documento } = job.data;
 
-    const { email } = job.data;
-
-    const result = await analisarLimiteService.execute({
+    await analisarLimiteService.execute({
       email,
+      documento
     });
   }
 }

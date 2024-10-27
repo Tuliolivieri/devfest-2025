@@ -1,6 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
 import client from 'prom-client'
 
+import './workers';
+
 const app = express();
 
 const collectDefaultMetrics = client.collectDefaultMetrics;
