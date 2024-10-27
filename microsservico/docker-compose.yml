@@ -10,25 +10,93 @@ services:
     networks:
         - devfest
 
-  postgres:
+  postgres_analise:
     image: postgres:14
-    container_name: postgres
+    container_name: postgres_analise
     environment:
       POSTGRES_USER: my_user
       POSTGRES_PASSWORD: my_password
-      POSTGRES_DB: my_database
+      POSTGRES_DB: analise
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data-analise:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
       - devfest
 
-  customer:
+  postgres_cliente:
+    image: postgres:14
+    container_name: postgres_cliente
+    environment:
+      POSTGRES_USER: my_user
+      POSTGRES_PASSWORD: my_password
+      POSTGRES_DB: cliente
+    volumes:
+      - postgres-data-cliente:/var/lib/postgresql/data
+    ports:
+      - "5433:5433"
+    networks:
+      - devfest
+    command: -p 5433
+    
+  postgres_conta:
+    image: postgres:14
+    container_name: postgres_conta
+    environment:
+      POSTGRES_USER: my_user
+      POSTGRES_PASSWORD: my_password
+      POSTGRES_DB: conta
+    volumes:
+      - postgres-data-conta:/var/lib/postgresql/data
+    ports:
+      - "5434:5434"
+    networks:
+      - devfest
+    command: -p 5434
+    
+  postgres_emprestimo:
+    image: postgres:14
+    container_name: postgres_emprestimo
+    environment:
+      POSTGRES_USER: my_user
+      POSTGRES_PASSWORD: my_password
+      POSTGRES_DB: emprestimo
+    volumes:
+      - postgres-data-emprestimo:/var/lib/postgresql/data
+    ports:
+      - "5435:5435"
+    networks:
+      - devfest
+    command: -p 5435
+
+  analise:
     build: ./analise      
-    container_name: customer
+    container_name: analise
+    environment:
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      PORT: 3001
     ports:
       - "3001:3001"
+    networks:
+      - devfest
+  
+  cliente:
+    build: ./cliente      
+    container_name: cliente
+    depends_on: 
+      - postgres_cliente
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      PG_HOST: postgres_cliente
+      PG_DATABASE: cliente
+      PG_USER: my_user
+      PG_PASSWORD: my_password
+      PG_PORT: 5433
+      PORT: 3002
+    ports:
+      - "3002:3002"
     networks:
       - devfest
 
@@ -57,7 +125,10 @@ services:
       - devfest
 
 volumes:
-  postgres-data:
+  postgres-data-analise:
+  postgres-data-cliente:
+  postgres-data-conta:
+  postgres-data-emprestimo:
 
 networks:
   devfest:
