@@ -2,6 +2,14 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: 'Customer'
+  - job_name: 'Cliente'
     static_configs:
-      - targets: ['customer:3001']
+      - targets: ['cliente:3002']
+  
+  - job_name: 'Analise'
+    static_configs:
+      - targets: ['analise:3001']
+
+  - job_name: 'Emprestimo'
+    static_configs:
+      - targets: ['emprestimo:3003']
