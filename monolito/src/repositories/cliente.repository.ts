@@ -15,7 +15,7 @@ namespace SaveClienteParams {
 
 namespace FindClienteByIdParams {
   export type Params = {
-    id: number;
+    documento: string;
   };
 
   export type Result = {
@@ -34,8 +34,8 @@ class ClienteRepository {
     }
   }
 
-  async findById(params: FindClienteByIdParams.Params): Promise <FindClienteByIdParams.Result> {
-    const result = await (await database).query('SELECT * FROM tb_clientes WHERE id = $1', [params.id]);
+  async findByDocument(params: FindClienteByIdParams.Params): Promise <FindClienteByIdParams.Result> {
+    const result = await (await database).query('SELECT * FROM tb_clientes WHERE documento = $1', [params.documento]);
 
     if (result.rows.length === 0) {
       return null;

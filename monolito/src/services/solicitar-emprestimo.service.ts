@@ -3,7 +3,7 @@ import emprestimoRepository from "../repositories/emprestimo.repository";
 import analisarLimiteService from "./analisar-limite.service";
 
 type Params = {
-  cliente_id: number;
+  documento: string;
 }
 
 type Result = {
@@ -13,10 +13,10 @@ type Result = {
 
 class SolicitarEmprestimoService {
   async execute(params :Params): Promise<Result> {
-    const { cliente_id } = params;
+    const { documento } = params;
 
-    const cliente = await clienteRepository.findById({
-      id: cliente_id
+    const cliente = await clienteRepository.findByDocument({
+      documento,
     });
 
     if (!cliente) {
@@ -34,7 +34,7 @@ class SolicitarEmprestimoService {
     await emprestimoRepository.save({
       limite,
       status,
-      cliente_id,
+      cliente_id: cliente.id,
     });
 
     if (status === 'aprovado') {

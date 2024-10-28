@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "prestart": "DATABASE_URL=postgres://my_user:my_password@postgres:5432/db_monolito npx node-pg-migrate up",
     "start": "ts-node ./src/index.ts"
   },
   "keywords": [],

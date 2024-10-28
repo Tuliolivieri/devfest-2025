@@ -15,13 +15,22 @@ services:
     networks:
       - devfest
 
-  # monolito:
-  #   build: ./analise      
-  #   container_name: monolito
-  #   ports:
-  #     - "3001:3001"
-  #   networks:
-  #     - devfest
+  monolito:
+    build: .
+    container_name: monolito
+    depends_on:
+      - postgres
+    environment:
+      PG_HOST: postgres
+      PG_DATABASE: db_monolito
+      PG_USER: my_user
+      PG_PASSWORD: my_password
+      PG_PORT: 5432
+      PORT: 3001
+    ports:
+      - "3001:3001"
+    networks:
+      - devfest
 
 volumes:
   postgres-data:

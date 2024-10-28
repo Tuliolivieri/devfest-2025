@@ -7,7 +7,7 @@ app.use(express.json());
 
 app.use(router);
 
-const PORT = process.env.PORT ?? 4000;
+const PORT = process.env.PORT;
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({
