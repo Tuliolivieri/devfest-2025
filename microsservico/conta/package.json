@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prestart": "DATABASE_URL=postgres://my_user:my_password@postgres_conta:5434/conta npx node-pg-migrate up",
+    "start": "ts-node ./src/index.ts"
   },
   "keywords": [],
   "author": "",

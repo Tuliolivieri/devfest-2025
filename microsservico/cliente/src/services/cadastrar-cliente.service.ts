@@ -29,6 +29,16 @@ class CadastrarClienteService {
       email,
     });
 
+    new BullQueueAdapter(BullmqQueuesEnum.CLIENTE_CADASTRADO_CONTA).addToQueue(
+      '',
+      {
+        id: result.id,
+        documento,
+        nome,
+        email,
+      }
+    );
+
     return {
       id: result.id,
     };
